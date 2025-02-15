@@ -42,6 +42,24 @@ function getExpenses() {
     .catch(error => console.error('Error Occurred:', error));
 };
 //POST
+function postExpense(expense) {
+    fetch('/api/expenses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(expense)
+    })
+    .then(response => {
+        if(!response.ok) {throw new Error(`Error: ${response.status}`)};
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        getExpenses() //get fresh set of data
+    })
+    .catch(error => console.error('Error Occurred:', error));
+};
 
 //Get data and render by default on app start
 getExpenses();
@@ -49,4 +67,18 @@ getExpenses();
 //Event Listener on Form
 form.addEventListener('submit', function(event) {
     event.preventDefault();
+    //create new expense
+    const newExpense = {
+        name: expenseName.value.trim(),
+        amount: expenseAmount.value.trim(),
+        category: expenseCategory.value.trim()
+    };
+
+    //call post function
+    postExpense(newExpense);
+
+    //clear form content
+    expenseName.value = '';
+    expenseAmount.value = '';
+    expenseCategory.value = '';
 });
