@@ -4,28 +4,49 @@ const expenseName = document.getElementById('expenseName');
 const expenseAmount = document.getElementById('expenseAmount');
 const expenseCategory = document.getElementById('expenseCategory');
 const btnSubmit = document.getElementById('btnSubmit');
+const expenseList = document.getElementById('expenseList');
 
-//initialize expenses array as a test to store newly created expenses
-const expenses = [];
-
-//Helper functions to handle form submissions
-//Define Expense class
-class Expense {
-    constructor(name, amount, category) {
-        this.name = name,
-        this.amount = amount,
-        this.category = category
-    }
-};
-//Create new Expenses
-function createNewExpense(expenseName, expenseAmount, expenseCategory) {
-    return new Expense(expenseName, expenseAmount, expenseCategory)
+//Create table rows and render them
+function createRow(record) {
+    //create elements
+    const tr = document.createElement('tr');
+    const tdName = document.createElement('td');
+    const tdAmount = document.createElement('td');
+    const tdCategory = document.createElement('td');
+    const tdActions = document.createElement('td');
+    //set attributes
+    //set text
+    tdName.textContent = record.name;
+    tdAmount.textContent = record.amount;
+    tdCategory.textContent = record.category;
+    tdActions.textContent = 'Actions here...';
+    //append
+    tr.append(tdName, tdAmount, tdCategory, tdActions);
+    expenseList.append(tr);
 }
-const expense = new Expense(expenseName, expenseAmount, expenseCategory);
+//Routes Functions
+//GET
+function getExpenses() {
+    fetch('/api/expenses', {method: 'GET'})
+    .then(response => {
+        if(!response.ok) {throw new Error(`Error: ${response.status}`)};
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        expenseList.textContent = ''; //clear contents before rendering
+        data.forEach(record => {
+            createRow(record);
+        });
+    })
+    .catch(error => console.error('Error Occurred:', error));
+};
+//POST
+
+//Get data and render by default on app start
+getExpenses();
 
 //Event Listener on Form
 form.addEventListener('submit', function(event) {
     event.preventDefault();
-    expenses.push(new Expense(expenseName.value, expenseAmount.value, expenseCategory.value));
-    console.log(expenses);
 });
