@@ -1,5 +1,6 @@
 //Get html elements
 const form = document.getElementById('expenseForm');
+const expenseDate = document.getElementById('expenseDate');
 const expenseName = document.getElementById('expenseName');
 const expenseAmount = document.getElementById('expenseAmount');
 const expenseCategory = document.getElementById('expenseCategory');
@@ -10,18 +11,20 @@ const expenseList = document.getElementById('expenseList');
 function createRow(record) {
     //create elements
     const tr = document.createElement('tr');
+    const tdDate = document.createElement('td');
     const tdName = document.createElement('td');
     const tdAmount = document.createElement('td');
     const tdCategory = document.createElement('td');
     const tdActions = document.createElement('td');
     //set attributes
     //set text
+    tdDate.textContent = record.date;
     tdName.textContent = record.name;
     tdAmount.textContent = record.amount;
     tdCategory.textContent = record.category;
     tdActions.textContent = 'Actions here...';
     //append
-    tr.append(tdName, tdAmount, tdCategory, tdActions);
+    tr.append(tdDate, tdName, tdAmount, tdCategory, tdActions);
     expenseList.append(tr);
 }
 //Routes Functions
@@ -69,6 +72,7 @@ form.addEventListener('submit', function(event) {
     event.preventDefault();
     //create new expense
     const newExpense = {
+        date: expenseDate.value,
         name: expenseName.value.trim(),
         amount: expenseAmount.value.trim(),
         category: expenseCategory.value.trim()
@@ -78,6 +82,7 @@ form.addEventListener('submit', function(event) {
     postExpense(newExpense);
 
     //clear form content
+    expenseDate.value = '';
     expenseName.value = '';
     expenseAmount.value = '';
     expenseCategory.value = '';
