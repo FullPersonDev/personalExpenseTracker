@@ -13,13 +13,16 @@
         <!-- Expense Form -->
         <form id="expenseForm" class="mb-4">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3 mb-2">
+                    <input type="date" id="expenseDate" class="form-control" required>
+                </div>
+                <div class="col-md-3 mb-2">
                     <input type="text" id="expenseName" class="form-control" placeholder="Expense Name" required>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-2">
                     <input type="number" id="expenseAmount" class="form-control" placeholder="Amount ($)" required>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-2">
                     <select id="expenseCategory" class="form-select">
                         <option selected>Category</option>
                         <option value="Food">Food</option>
@@ -28,8 +31,10 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button type="submit" id="btnSubmit" class="btn btn-primary w-100">Add Expense</button>
+            </div>
+            <div class="row justify-content-end mt-1">
+                <div class="col-md-3 col-12">
+                    <button type="submit" id="btnSubmit" class="btn btn-primary w-md-auto w-100">Add Expense</button>
                 </div>
             </div>
         </form>
@@ -38,6 +43,7 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr class="table-primary">
+                    <th>Date</th>
                     <th>Name</th>
                     <th>Amount ($)</th>
                     <th>Category</th>
