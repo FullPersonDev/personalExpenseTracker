@@ -7,6 +7,41 @@ const expenseCategory = document.getElementById('expenseCategory');
 const btnSubmit = document.getElementById('btnSubmit');
 const expenseList = document.getElementById('expenseList');
 
+//today's date helper function
+const today = () => {
+    const [month, day, year] = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).split('/');
+    return `${year}-${month}-${day}`;
+};
+//set expense date to today date by default
+expenseDate.value = today();
+
+//Herper function to show toast notifications
+function showToast(message, type = 'success') {
+    const toastElement = document.getElementById('toastMessage');
+    const toastBody = toastElement.querySelector('.toast-body');
+
+    // Update message text
+    toastBody.textContent = message;
+
+    // Set background color based on type (success, error, warning)
+    toastElement.classList.remove('bg-success', 'bg-danger', 'bg-warning');
+    if (type === 'success') {
+        toastElement.classList.add('bg-success');
+    } else if (type === 'error') {
+        toastElement.classList.add('bg-danger');
+    } else if (type === 'warning') {
+        toastElement.classList.add('bg-warning');
+    }
+
+    // Show toast using Bootstrap's JS API
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+
 //Create table rows and render them
 function createRow(record) {
     //create elements
@@ -36,7 +71,6 @@ function getExpenses() {
         return response.json();
     })
     .then(data => {
-        console.log(data);
         expenseList.textContent = ''; //clear contents before rendering
         data.forEach(record => {
             createRow(record);
@@ -58,7 +92,7 @@ function postExpense(expense) {
         return response.json();
     })
     .then(data => {
-        console.log(data);
+        showToast(data.message);
         getExpenses() //get fresh set of data
     })
     .catch(error => console.error('Error Occurred:', error));
@@ -81,9 +115,9 @@ form.addEventListener('submit', function(event) {
     //call post function
     postExpense(newExpense);
 
-    //clear form content
+    //reset form content
     expenseDate.value = '';
     expenseName.value = '';
     expenseAmount.value = '';
-    expenseCategory.value = '';
+    expenseCategory.value = 'Category';
 });
