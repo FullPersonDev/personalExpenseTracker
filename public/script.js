@@ -7,7 +7,7 @@ const expenseCategory = document.getElementById('expenseCategory');
 const btnSubmit = document.getElementById('btnSubmit');
 const expenseList = document.getElementById('expenseList');
 
-//today's date helper function
+//Helper function - today's date
 const today = () => {
     const [month, day, year] = new Date().toLocaleDateString('en-US', {
         year: 'numeric',
@@ -19,7 +19,13 @@ const today = () => {
 //set expense date to today date by default
 expenseDate.value = today();
 
-//Herper function to show toast notifications
+//Helper Function - to format date from "YYYY-MM-DD" to "MM-DD-YYYY"
+function formatDate(isoDate) {
+    const [year, month, day] = isoDate.split('-'); // Split by "-"
+    return `${month}-${day}-${year}`; // Rearrange as MM-DD-YYYY
+}
+
+//Herper function - to show toast notifications
 function showToast(message, type = 'success') {
     const toastElement = document.getElementById('toastMessage');
     const toastBody = toastElement.querySelector('.toast-body');
@@ -53,7 +59,7 @@ function createRow(record) {
     const tdActions = document.createElement('td');
     //set attributes
     //set text
-    tdDate.textContent = record.date;
+    tdDate.textContent = formatDate(record.date);
     tdName.textContent = record.name;
     tdAmount.textContent = record.amount;
     tdCategory.textContent = record.category;
@@ -116,7 +122,7 @@ form.addEventListener('submit', function(event) {
     postExpense(newExpense);
 
     //reset form content
-    expenseDate.value = '';
+    expenseDate.value = today();
     expenseName.value = '';
     expenseAmount.value = '';
     expenseCategory.value = 'Category';

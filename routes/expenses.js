@@ -2,15 +2,6 @@
 const expensesR = require('express').Router();
 const fs = require('fs');
 
-//Helper function for POST date
-function formatDate(ISODate) {
-    return new Date(ISODate).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    });
-};
-
 //GET expenses
 expensesR.get('/', (req, res) => {
     //read file
@@ -42,13 +33,10 @@ expensesR.post('/', (req, res) => {
             return res.status(500).json({error: 'Database file is currupt'});
         };
 
-        //format incoming ISO date from YYYY-MM-DD to MM-DD-YYYY
-        const formattedDate = formatDate(req.body.date);
-
         //create new expense object
         const newExpense = {
             id: expensesDB > 0 ? Math.max(...expensesDB.map(expense => expense.id)) + 1 : 1,
-            date: formattedDate,
+            date: req.body.date,
             name: req.body.name,
             amount: req.body.amount,
             category: req.body.category

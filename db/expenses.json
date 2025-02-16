@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": 1,
+    "date": "2025-02-15",
+    "name": "Gas",
+    "amount": "60",
+    "category": "Transport"
+  },
+  {
+    "id": 1,
+    "date": "2025-02-15",
+    "name": "Groceries",
+    "amount": "600",
+    "category": "Food"
+  },
+  {
+    "id": 1,
+    "date": "2025-01-31",
+    "name": "coffee",
+    "amount": "8",
+    "category": "Food"
+  },
+  {
+    "id": 1,
+    "date": "2025-02-15",
+    "name": "Cookies",
+    "amount": "2",
+    "category": "Category"
+  }
+]
